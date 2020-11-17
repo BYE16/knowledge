@@ -17,7 +17,7 @@
           <el-form-item>
             <el-button type="primary" icon @click="doRegister">注册账号</el-button>
           </el-form-item>
-          <router-link to="login" style="text-decoration:none; margin-left:200px">已有账号，去登录</router-link>
+          <router-link to="/" style="text-decoration:none; margin-left:200px">已有账号，去登录</router-link>
         </el-form>
       </el-row>
     </div>
@@ -67,7 +67,7 @@ export default {
               console.log(res)
               console.log(res.data)
               console.log(res.data.length)
-              this.$router.push('login');
+              this.$router.push({path:'/'});
               this.$notify({
                 title:'注册成功',
                 type: 'success'

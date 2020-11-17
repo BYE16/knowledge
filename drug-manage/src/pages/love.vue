@@ -48,20 +48,30 @@
               active-text-color="#ffd04b"
             >
               <el-menu-item index="1"
-                ><router-link to="/">首页</router-link></el-menu-item
+                ><router-link :to="{path:'index',query:{name:currentUser}}">首页</router-link></el-menu-item
               >
               <el-menu-item index="2"
-                ><router-link to="Book">知识库</router-link></el-menu-item
+                ><router-link :to="{path:'Book',query:{name:currentUser}}">知识库</router-link></el-menu-item
               >
               <el-menu-item index="3"
-                ><router-link to="Text">待办事项</router-link></el-menu-item
+                ><router-link :to="{path:'Text',query:{name:currentUser}}">待办事项</router-link></el-menu-item
               >
               <el-menu-item index="4"
-                ><router-link to="love">我的收藏</router-link></el-menu-item
+                ><router-link :to="{path:'love',query:{name:currentUser}}">我的收藏</router-link></el-menu-item
               >
               <el-menu-item index="5"
-                ><router-link to="login">登录/注册</router-link></el-menu-item
+                ><router-link to="/">登录/注册</router-link></el-menu-item
               >
+              <el-menu-item index="6">
+                <el-dropdown trigger="click">
+                  <span class="el-dropdown-link" style="font-size:14px; font-family:'幼圆'; font-style:normal;">
+                    {{currentUser}}<i class="el-icon-arrow-down el-icon--right" style="font-size:14px;"></i>
+                  </span>
+                  <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item icon="el-icon-close"><router-link to="/">退出登录</router-link></el-dropdown-item>
+                  </el-dropdown-menu>
+                </el-dropdown>
+              </el-menu-item >
             </el-menu>
           </div>
         </div>
@@ -101,15 +111,15 @@
       <footer class="text-white text-center p-3" style="letter-spacing:0.2em">
         <span>©个人知识库</span>
         <div class="text-white" style="letter-spacing:0.1em; font-size:0.8em">
-          <router-link to="/" class="routerL">首页</router-link>
+          <router-link :to="{path:'index',query:{name:currentUser}}" class="routerL">首页</router-link>
           <el-divider direction="vertical"></el-divider>
-          <router-link to="Book" class="routerL">知识库</router-link>
+          <router-link :to="{path:'Book',query:{name:currentUser}}" class="routerL">知识库</router-link>
           <el-divider direction="vertical"></el-divider>
-          <router-link to="Text" class="routerL">待办事项</router-link>
+          <router-link :to="{path:'Text',query:{name:currentUser}}" class="routerL">待办事项</router-link>
           <el-divider direction="vertical"></el-divider>
-          <router-link to="love" class="routerL">我的收藏</router-link>
+          <router-link :to="{path:'love',query:{name:currentUser}}" class="routerL">我的收藏</router-link>
           <el-divider direction="vertical"></el-divider>
-          <router-link to="login" class="routerL">登录/注册</router-link>
+          <router-link to="/" class="routerL">登录/注册</router-link>
         </div>
       </footer>
     </div>
@@ -129,25 +139,32 @@ export default {
       loveData1: [],
       loveData2: [],
       activeIndex: "1",
+      currentUser:'',
     };
   },
   created(){
+    this.getParams();
     this.getData();
   },
   methods: {
       handleSelect(key, keyPath) {
     //   console.log(key, keyPath);
     },
+    getParams(){
+      this.currentUser = this.$route.query.name;
+      console.log(this.currentUser+'!!!!!!')
+    },
     getData() {
         this.loveData1 = [];
         this.loveData2 = [];
+        let name = this.currentUser;
         //通过axios向服务器发出post请求，以获取全部知识的信息。
-        axios.post("api/knowledge/getallknowledgetext").then((res) => {
+        axios.post("api/knowledge/getallknowledgetext",{name}).then((res) => {
           console.log(res);
           this.loveData1 = res.data.filter(function(item){return item.text_flag === 1});
           console.log(this.loveData1);
         });
-        axios.post("api/knowledge/getallknowledgefile").then((res) => {
+        axios.post("api/knowledge/getallknowledgefile",{name}).then((res) => {
           console.log(res);
           this.loveData2 = res.data.filter(function(item){return item.file_flag === 1});
           console.log(this.loveData2);

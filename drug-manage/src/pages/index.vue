@@ -48,20 +48,30 @@
               active-text-color="#ffd04b"
             >
               <el-menu-item index="1"
-                ><router-link to="/">首页</router-link></el-menu-item
+                ><router-link :to="{path:'index',query:{name:currentUser}}">首页</router-link></el-menu-item
               >
               <el-menu-item index="2"
-                ><router-link to="Book">知识库</router-link></el-menu-item
+                ><router-link :to="{path:'Book',query:{name:currentUser}}">知识库</router-link></el-menu-item
               >
               <el-menu-item index="3"
-                ><router-link to="Text">待办事项</router-link></el-menu-item
+                ><router-link :to="{path:'Text',query:{name:currentUser}}">待办事项</router-link></el-menu-item
               >
               <el-menu-item index="4"
-                ><router-link to="love">我的收藏</router-link></el-menu-item
+                ><router-link :to="{path:'love',query:{name:currentUser}}">我的收藏</router-link></el-menu-item
               >
               <el-menu-item index="5"
-                ><router-link to="login">登录/注册</router-link></el-menu-item
+                ><router-link to="/">登录/注册</router-link></el-menu-item
               >
+              <el-menu-item index="6">
+                <el-dropdown trigger="click">
+                  <span class="el-dropdown-link" style="font-size:14px; font-family:'幼圆'; font-style:normal;">
+                    {{currentUser}}<i class="el-icon-arrow-down el-icon--right" style="font-size:14px;"></i>
+                  </span>
+                  <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item icon="el-icon-close"><router-link to="/">退出登录</router-link></el-dropdown-item>
+                  </el-dropdown-menu>
+                </el-dropdown>
+              </el-menu-item >
             </el-menu>
           </div>
         </div>
@@ -82,7 +92,7 @@
     <!-- 轮播图结束 -->
 
     <!-- 知识精选开始 -->
-    <div class="part1 container-xl" style="background:#F2F6FC">
+    <div class="part1 container-xl" style="background: #f2f6fc">
       <div
         class="part1-title d-flex flex-row justify-content-between px-4 pt-5 pb-3"
       >
@@ -149,7 +159,7 @@
     <el-divider></el-divider>
 
     <!-- 在线文档开始 -->
-    <div class="part1 container-xl" style="background:#F2F6FC">
+    <div class="part1 container-xl" style="background: #f2f6fc">
       <div
         class="part1-title d-flex flex-row justify-content-between px-4 pt-5 pb-3"
       >
@@ -158,27 +168,40 @@
       </div>
       <div class="part1-main">
         <div class="part1-main-item row m-0">
-          <div class="row m-0 ">
-            <div class="demo-image__preview d-flex flex-column col-sm-6 col-md-3 col-lg-2" v-for="(item,index) in filesData" :key="index">
+          <div class="row m-0">
+            <div
+              class="demo-image__preview d-flex flex-column col-sm-6 col-md-3 col-lg-2"
+              v-for="(item, index) in filesData"
+              :key="index"
+            >
               <el-image
-                style="width: 150px; height: 150px; border:2px dotted #cccccc; border-radius:10px"
+                style="
+                  width: 150px;
+                  height: 150px;
+                  border: 2px dotted #cccccc;
+                  border-radius: 10px;
+                "
                 :src="getUrl(item.file)"
-                
               >
-              <!-- :preview-src-list="srcList" -->
+                <!-- :preview-src-list="srcList" -->
               </el-image>
-              <a href="" class="text-center p-2" style="width:150px; font-size:1.5em;" >{{attachFile(item.file)}}</a>
+              <a
+                href=""
+                class="text-center p-2"
+                style="width: 150px; font-size: 1.5em"
+                >{{ attachFile(item.file) }}</a
+              >
             </div>
           </div>
-          
-                <!-- action 接口
+
+          <!-- action 接口
                 list-type设置文件列表的样式。
                 handlePreview 预览
                 uploadSuccess 上传成功的回调
                 beforeRemove 删除的回调
                 fileList 上传的文件数组
                 uploadHeader 传给后台的请求头 -->
-         
+
           <!-- <el-upload
             v-model="form"
             class="upload-demo inline-block"
@@ -205,8 +228,8 @@
               v-for="(item, index) in attachment"
               :key="index"
             > -->
-              <!-- 正则判断文件类型，是doc,xls文件则显示下载二字 -->
-              <!-- <a
+          <!-- 正则判断文件类型，是doc,xls文件则显示下载二字 -->
+          <!-- <a
                 class="preview"
                 @click="handleDownload(index)"
                 v-if="/.docx|.pdf|.xls|.xlsx|.ppt|.pptx|.doc|.txt|.zip|.rar/"
@@ -268,15 +291,15 @@
       <footer class="text-white text-center p-3" style="letter-spacing: 0.2em">
         <span>©个人知识库</span>
         <div class="text-white" style="letter-spacing: 0.1em; font-size: 0.8em">
-          <router-link to="/" class="routerL">首页</router-link>
+          <router-link :to="{path:'index',query:{name:currentUser}}" class="routerL">首页</router-link>
           <el-divider direction="vertical"></el-divider>
-          <router-link to="Book" class="routerL">知识库</router-link>
+          <router-link :to="{path:'Book',query:{name:currentUser}}" class="routerL">知识库</router-link>
           <el-divider direction="vertical"></el-divider>
-          <router-link to="Text" class="routerL">待办事项</router-link>
+          <router-link :to="{path:'Text',query:{name:currentUser}}" class="routerL">待办事项</router-link>
           <el-divider direction="vertical"></el-divider>
-          <router-link to="love" class="routerL">我的收藏</router-link>
+          <router-link :to="{path:'love',query:{name:currentUser}}" class="routerL">我的收藏</router-link>
           <el-divider direction="vertical"></el-divider>
-          <router-link to="login" class="routerL">登录/注册</router-link>
+          <router-link to="/" class="routerL">登录/注册</router-link>
         </div>
       </footer>
     </div>
@@ -314,6 +337,7 @@ export default {
       thingsData: [],
       filesData: [],
       activeNames: ["1"],
+      currentUser:'',
 
       // dialogImageUrl: "",
       // dialogVisible: false,
@@ -326,10 +350,10 @@ export default {
       // uploadHeader: uploadHead(),
 
       // srcList:[],
-        
     };
   },
   created() {
+    this.getParams();
     this.getData();
   },
   methods: {
@@ -339,37 +363,42 @@ export default {
     uploadUrl(id) {
       return `/api/knowledgeUpload/updateknowledgefile?id=${id}`;
     },
+    getParams(){
+      this.currentUser = this.$route.query.name;
+      console.log(this.currentUser+'???????')
+    },
     getData() {
-      (this.textDate = []),
-        (this.thingsData = []),
+        let name = this.currentUser;
+        this.textDate = [],
+        this.thingsData = [],
         //通过axios向服务器发出post请求，以获取全部知识的信息。
-        axios.post("api/knowledge/getallknowledgetext").then((res) => {
+        axios.post("api/knowledge/getallknowledgetext",{name}).then((res) => {
           // console.log(res);
           this.textData = res.data;
           // console.log(this.textData);
         });
       //通过axios向服务器发出post请求，以获取全部的待办事项。
-      axios.post("api/knowledge/getallthings").then((res) => {
+      axios.post("api/knowledge/getallthings",{name}).then((res) => {
         // console.log(res);
         this.thingsData = res.data;
         // console.log(this.thingsData);
       });
-      axios.post("api/knowledgeUpload/updateknowledgefile").then((res) => {
-        // console.log(res);
-        this.form = res.data;
-        // console.log(this.form);
-      });
-      axios.post("api/knowledge/getallknowledgefile").then((res) => {
+      // axios.post("api/knowledgeUpload/updateknowledgefile").then((res) => {
+      //   // console.log(res);
+      //   this.form = res.data;
+      //   // console.log(this.form);
+      // });
+      axios.post("api/knowledge/getallknowledgefile",{name}).then((res) => {
         console.log(res);
         this.filesData = res.data;
         // this.srcList = filesData;
-        console.log( this.filesData);
+        console.log(this.filesData);
       });
     },
     handleChange(val) {
       // console.log(val);
     },
-    
+
     // handleRemove(file) {
     //   console.log(file);
     // },
@@ -380,8 +409,6 @@ export default {
     // handleDownload(file) {
     //   console.log(file);
     // },
-
-
 
     // displayImg(file, q) {
     //   //正则判断文件后缀是不是图片
@@ -555,5 +582,13 @@ a:hover {
 }
 .need-enclosure:hover .img-hover {
   display: block;
+}
+
+.el-dropdown-link {
+  cursor: pointer;
+  color: #409eff;
+}
+.el-icon-arrow-down {
+  font-size: 12px;
 }
 </style>

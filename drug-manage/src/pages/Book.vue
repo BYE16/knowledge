@@ -1,7 +1,7 @@
 <template>
 
   <div class="table">
-        <!-- 导航栏开始 -->
+       <!-- 导航栏开始 -->
     <div class="container-xl">
       <div class="row head-nav m-0">
         <!-- 左栏开始 -->
@@ -49,20 +49,30 @@
               active-text-color="#ffd04b"
             >
               <el-menu-item index="1"
-                ><router-link to="/">首页</router-link></el-menu-item
+                ><router-link :to="{path:'index',query:{name:currentUser}}">首页</router-link></el-menu-item
               >
               <el-menu-item index="2"
-                ><router-link to="Book">知识库</router-link></el-menu-item
+                ><router-link :to="{path:'Book',query:{name:currentUser}}">知识库</router-link></el-menu-item
               >
               <el-menu-item index="3"
-                ><router-link to="Text">待办事项</router-link></el-menu-item
+                ><router-link :to="{path:'Text',query:{name:currentUser}}">待办事项</router-link></el-menu-item
               >
               <el-menu-item index="4"
-                ><router-link to="love">我的收藏</router-link></el-menu-item
+                ><router-link :to="{path:'love',query:{name:currentUser}}">我的收藏</router-link></el-menu-item
               >
               <el-menu-item index="5"
-                ><router-link to="login">登录/注册</router-link></el-menu-item
+                ><router-link to="/">登录/注册</router-link></el-menu-item
               >
+              <el-menu-item index="6">
+                <el-dropdown trigger="click">
+                  <span class="el-dropdown-link" style="font-size:14px; font-family:'幼圆'; font-style:normal;">
+                    {{currentUser}}<i class="el-icon-arrow-down el-icon--right" style="font-size:14px;"></i>
+                  </span>
+                  <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item icon="el-icon-close"><router-link to="/">退出登录</router-link></el-dropdown-item>
+                  </el-dropdown-menu>
+                </el-dropdown>
+              </el-menu-item >
             </el-menu>
           </div>
         </div>
@@ -227,6 +237,7 @@ export default {
   mixins: [mixin],
   data() {
     return {
+      currentUser:'',
       labelPosition: 'right',
       registerForm: {
         // 添加框信息
@@ -281,12 +292,17 @@ export default {
     },
   },
   created() {
+    this.getParams();
     this.getData();
   },
   methods: {
     // 获取当前页
     handleCurrentChange(val) {
       this.currentPage = val;
+    },
+    getParams(){
+      this.currentUser = this.$route.query.name;
+      console.log(this.currentUser+'???????')
     },
     // 添加
     adddrug() {

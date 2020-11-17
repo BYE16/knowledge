@@ -53,9 +53,11 @@ export default {
           .then(res => {
             console.log(res)
             if (res.data.length == 1) {
-              this.$router.push('/');
               this.currentUser = res.data[0].name;
               console.log(this.currentUser)
+              this.$router.push({
+                path:'/index',
+                query:{name:this.currentUser}});
             } else {
               this.$notify({
                 title:'您输入的用户名或密码错误！',

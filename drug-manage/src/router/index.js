@@ -14,40 +14,35 @@ Vue.use(Router)
 
 export default new Router({
     routes: [{
-        path: '/',
-        name: 'index',
-        component: index
-    },
-    {
-        path: '/Text',
-        name: 'Text',
-        component: Text
-    },
-    {
-        path: '/Book',
-        name: 'Book',
-        component: Book
-    },
-    {
-        path: '/love',
-        name: 'love',
-        component: love
-    },
-    {
-        path: '/login',
-        name: 'Login',
-        component: Login
-      },
-      {
-        path: '/register',
-        name: 'Register',
-        component: Register
-      },
-      {
-        path: '/personal',
-        name: 'Personal',
-        component: Personal
-      }   
+            path: '/',
+            name: 'Login',
+            component: Login
+        },
+        {
+            path: '/index',
+            name: 'index',
+            component: index
+        },
+        {
+            path: '/Text',
+            name: 'Text',
+            component: Text
+        },
+        {
+            path: '/Book',
+            name: 'Book',
+            component: Book
+        },
+        {
+            path: '/love',
+            name: 'love',
+            component: love
+        },
+        {
+            path: '/register',
+            name: 'Register',
+            component: Register
+        },
 
     ]
 })
