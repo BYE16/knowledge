@@ -3,7 +3,7 @@
 var sqlMap = {
     knowledge: {
         getknowledgetext: 'select * from text where name=?', //1
-        updateknowledge: 'update text set text=? where id=?',
+        updateknowledgetext: 'update text set text=? where id=?',
         updateknowledgefile: 'update file set file=? where id=?',
         deleteknowledgetext: 'delete from text where id=?',
         deleteknowledgefile: 'delete from file where id=?',

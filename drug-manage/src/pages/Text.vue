@@ -5,14 +5,14 @@
     <div class="container-xl">
       <div class="row head-nav m-0">
         <!-- 左栏开始 -->
-        <div class="col-md">
+        <div class="col-lg">
           <!-- 嵌套分栏,左栏文字 -->
           <div class="row align-items-center m-0">
-            <div class="col col-md-12">
+            <div class="col col-lg-12">
               <span>个人知识库</span>
             </div>
             <!-- 嵌套分栏,右栏button -->
-            <div class="col-auto d-md-none">
+            <div class="col-auto d-lg-none">
               <button
                 class="navbar-toggler p-0"
                 data-toggle="collapse"
@@ -37,11 +37,11 @@
           </div>
         </div>
         <!-- 右栏开始 -->
-        <div class="col-md-auto">
-          <div id="nav1" class="collapse d-md-block">
+        <div class="col-lg-auto">
+          <div id="nav1" class="collapse d-lg-block">
             <el-menu
               :default-active="activeIndex"
-              class="el-menu-demo d-flex flex-column flex-md-row justify-content-end align-items-end"
+              class="el-menu-demo d-flex flex-column flex-lg-row justify-content-end align-items-end"
               mode="horizontal"
               @select="handleSelect"
               background-color="#545c64"

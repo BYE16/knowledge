@@ -4,14 +4,14 @@
     <div class="container-xl">
       <div class="row head-nav m-0">
         <!-- 左栏开始 -->
-        <div class="col-md">
+        <div class="col-lg">
           <!-- 嵌套分栏,左栏文字 -->
           <div class="row align-items-center m-0">
-            <div class="col col-md-12">
+            <div class="col col-lg-12">
               <span>个人知识库</span>
             </div>
             <!-- 嵌套分栏,右栏button -->
-            <div class="col-auto d-md-none">
+            <div class="col-auto d-lg-none">
               <button
                 class="navbar-toggler p-0"
                 data-toggle="collapse"
@@ -36,11 +36,11 @@
           </div>
         </div>
         <!-- 右栏开始 -->
-        <div class="col-md-auto">
-          <div id="nav1" class="collapse d-md-block">
+        <div class="col-lg-auto">
+          <div id="nav1" class="collapse d-lg-block">
             <el-menu
               :default-active="activeIndex"
-              class="el-menu-demo d-flex flex-column flex-md-row justify-content-end align-items-end"
+              class="el-menu-demo d-flex flex-column flex-lg-row justify-content-end align-items-end"
               mode="horizontal"
               @select="handleSelect"
               background-color="#545c64"
@@ -87,7 +87,14 @@
         <div class="m-0 p-3 col-lg-6" v-for="(item, index) in loveData1" :key="index">
           <el-row :gutter="12" >
             <el-col>
-              <el-card shadow="hover" style="font-size:1.6em"> {{item.text}} <el-button type="danger" size="mini" style="float:right" class="m-3" @click="moveTextFromLove(item.id)">移除</el-button></el-card>
+              <el-card shadow="hover" style="font-size:1.6em">
+                 {{item.text}}
+                 <div class="d-flex flex-row justify-content-end">
+                  <el-button type="primary" size="mini"  class="m-3" @click="editText(item.id,item.text)">编辑</el-button>
+                  <el-button type="danger" size="mini"  class="m-3" @click="deleteText(item.id)">删除</el-button>
+                  <el-button type="danger" size="mini"  class="m-3" @click="moveTextFromLove(item.id)">移除</el-button>
+                 </div>
+              </el-card>
             </el-col>
           </el-row>
           
@@ -98,13 +105,69 @@
         <div class="row m-0 py-4">
           <el-row :gutter="12" class="m-0 p-3 col-lg-4 col-md-6" v-for="(item, index) in loveData2" :key="index">
             <el-col>
-              <el-card shadow="hover" style="font-size:1.6em"> {{attachFile(item.file)}}<el-button type="danger" size="mini" style="float:right" class="m-3" @click="moveFileFromLove(item.id)">移除</el-button></el-card>
+              <el-card shadow="hover" style="font-size:1.6em">
+                 {{attachFile(item.file)}}
+                 <div class="d-flex flex-row justify-content-end">
+                  <el-button type="primary" size="mini"  class="m-3" @click="editFile(item.id,item.file)">上传</el-button>
+                    <el-button type="danger" size="mini"  class="m-3" @click="deleteFile(item.id)">删除</el-button>
+                  <el-button type="danger" size="mini" class="m-3" @click="moveFileFromLove(item.id)">移除</el-button>
+                 </div>
+              </el-card>
             </el-col>
           </el-row>
         </div>
       </div>
     </div>
     <!-- 收藏结束 -->
+
+    <!-- 编辑弹出框 -->
+    <el-dialog title="编辑" :visible.sync="editVisible" width="500px">
+      <el-form ref="form" :model="form" label-width="80px">
+        <el-form-item label="知识内容">
+          <el-input type="textarea" v-model="form.text"></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button size="mini"  @click="editVisible = false">取 消</el-button>
+        <el-button type="primary" size="mini" @click="saveEdit">确 定</el-button>
+      </span>
+    </el-dialog>
+
+    <!-- 删除text提示框 -->
+    <el-dialog title="提示" :visible.sync="delTextVisible" width="300px" center>
+      <div class="del-dialog-cnt" align="center">删除不可恢复，是否确定删除？</div>
+      <span slot="footer" class="dialog-footer">
+        <el-button size="mini" @click="delTextVisible = false">取 消</el-button>
+        <el-button type="primary" size="mini" @click="deleteTextRow">确 定</el-button>
+      </span>
+    </el-dialog>
+
+    <!-- 移除text提示框 -->
+    <el-dialog title="提示" :visible.sync="removeTextVisible" width="300px" center>
+      <div class="del-dialog-cnt" align="center">确定从我的收藏里移除这一项吗？</div>
+      <span slot="footer" class="dialog-footer">
+        <el-button size="mini" @click="removeTextVisible = false">取 消</el-button>
+        <el-button type="primary" size="mini" @click="removeTextRow">确 定</el-button>
+      </span>
+    </el-dialog>
+
+    <!-- 删除file提示框 -->
+    <el-dialog title="提示" :visible.sync="delFileVisible" width="300px" center>
+      <div class="del-dialog-cnt" align="center">删除不可恢复，是否确定删除？</div>
+      <span slot="footer" class="dialog-footer">
+        <el-button size="mini" @click="delFileVisible = false">取 消</el-button>
+        <el-button type="primary" size="mini" @click="deleteFileRow">确 定</el-button>
+      </span>
+    </el-dialog>
+
+    <!-- 移除file提示框 -->
+    <el-dialog title="提示" :visible.sync="removeFileVisible" width="300px" center>
+      <div class="del-dialog-cnt" align="center">确定从我的收藏里移除这一项吗？</div>
+      <span slot="footer" class="dialog-footer">
+        <el-button size="mini" @click="removeFileVisible = false">取 消</el-button>
+        <el-button type="primary" size="mini" @click="removeFileRow">确 定</el-button>
+      </span>
+    </el-dialog>
 
     <!-- footer开始 -->
     <div class="container-xl" style="background-color:#545c64">
@@ -140,6 +203,21 @@ export default {
       loveData2: [],
       activeIndex: "1",
       currentUser:'',
+      form:{
+        // 编辑框信息
+        id:'',
+        text:'',
+      },
+      centerDialogVisible: false,
+      editVisible: false,
+      delTextVisible: false,
+      removeTextVisible: false,
+      delFileVisible: false,
+      removeFileVisible: false,
+      idx: -1,
+      idy: -1,
+      idxf: -1,
+      idyf: -1,
     };
   },
   created(){
@@ -172,19 +250,126 @@ export default {
     },
     moveTextFromLove(id){
         console.log(id+',,,,,,')
+        this.idy = id;
+        this.removeTextVisible = true;
+    },
+    removeTextRow(){
+        let id = this.idy;
         let text_flag = 0;
         let params ={text_flag,id};
         axios.post("api/knowledge/updatetextflag",params).then((res) => {
-          this.getData();
-        });
+          console.log(res.data); 
+          if (res) {
+            this.getData()
+            this.notify('移除成功', 'success')
+          } else {
+            this.notify('移除失败', 'error')
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
+      this.removeTextVisible = false
     },
+
     moveFileFromLove(id){
         console.log(id+'......')
+        this.idyf = id;
+        this.removeFileVisible = true;
+    },
+    removeFileRow(){
+        let id = this.idyf;
         let file_flag = 0;
         let params ={file_flag,id};
         axios.post("api/knowledge/updatefileflag",params).then((res) => {
-          this.getData();
-        });
+          console.log(res.data); 
+          if (res) {
+            this.getData()
+            this.notify('移除成功', 'success')
+          } else {
+            this.notify('移除失败', 'error')
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
+      this.removeFileVisible = false
+    },
+    // 编辑
+    editText(id,text){
+      console.log(id+'PPPPP');
+      this.editVisible = true;
+      this.form = {
+        id: id,
+        text:text,
+      }
+    },
+    // 保存编辑
+    saveEdit () {
+      let id=this.form.id
+      let text=this.form.text
+      let params={text,id}            
+      console.log(params)
+      axios.post('api/knowledge/updateknowledgetext',params).then(res => {
+        console.log(res); 
+        if (res.data.affectedRows!= 0) {
+            this.getData()
+            this.notify('编辑成功', 'success')
+          } else {
+            this.notify('编辑失败', 'error')
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
+      this.editVisible = false
+    },
+    // 获取要删除列表的id
+    deleteText(id){
+      this.idx = id
+      this.delTextVisible = true
+    },
+    // 确定删除
+    deleteTextRow () {
+      let id=this.idx;
+      let params={id}      
+      console.log(params)
+      axios.post('api/knowledge/deleteknowledgetext',params).then(res => {
+      console.log(res.data); 
+          if (res) {
+            this.getData()
+            this.notify('删除成功', 'success')
+          } else {
+            this.notify('删除失败', 'error')
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
+      this.delTextVisible = false
+    },
+
+    deleteFile(id){
+      this.idxf = id;
+      this.delFileVisible = true;
+    },
+    deleteFileRow(){
+      let id=this.idxf;
+      let params={id}      
+      console.log(params)
+      axios.post('api/knowledge/deleteknowledgefile',params).then(res => {
+      console.log(res.data); 
+          if (res) {
+            this.getData()
+            this.notify('删除成功', 'success')
+          } else {
+            this.notify('删除失败', 'error')
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
+      this.delFileVisible = false
     },
   },
 };

@@ -93,8 +93,8 @@ router.post('/addknowledgetext', (req, res) => {
 //     });
 //     conn.end();
 // });
-router.post('/updateknowledge', (req, res) => {
-    let sqlStr = sql_Knowledge.knowledge.updateknowledge;
+router.post('/updateknowledgetext', (req, res) => {
+    let sqlStr = sql_Knowledge.knowledge.updateknowledgetext;
     let conn = new DBHelper_Knowledge().getConn();
     let params = req.body;
     console.log(params);
