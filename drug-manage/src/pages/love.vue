@@ -108,7 +108,7 @@
               <el-card shadow="hover" style="font-size:1.6em">
                  {{attachFile(item.file)}}
                  <div class="d-flex flex-row justify-content-end">
-                  <el-button type="primary" size="mini"  class="m-3" @click="editFile(item.id,item.file)">上传</el-button>
+                  <el-button type="primary" size="mini"  class="m-3" @click="downloadFile(item.file)">预览/下载</el-button>
                     <el-button type="danger" size="mini"  class="m-3" @click="deleteFile(item.id)">删除</el-button>
                   <el-button type="danger" size="mini" class="m-3" @click="moveFileFromLove(item.id)">移除</el-button>
                  </div>
@@ -371,6 +371,15 @@ export default {
         })
       this.delFileVisible = false
     },
+    downloadFile(file){
+      //下载文件
+        var a = document.createElement("a");
+        var event = new MouseEvent("click");
+        a.download = "http://127.0.0.1:3300"+ file;
+        a.href = "http://127.0.0.1:3300"+ file;
+        a.dispatchEvent(event);
+        console.log(file)
+    }
   },
 };
 </script>

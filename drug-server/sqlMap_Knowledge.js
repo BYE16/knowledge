@@ -13,6 +13,7 @@ var sqlMap = {
         getknowledgefile: 'select * from file where name=?', //1
         updateknowledgetextflag: 'update text set text_flag = ? where id=?', //1
         updateknowledgefileflag: 'update file set file_flag = ? where id=?', //1
+        updateknowledgethingflag: 'update thing set thing_flag = ? where id=?', //1
     },
     user: {
         login: 'select * from user where name=? and password=?',

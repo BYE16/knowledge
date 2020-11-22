@@ -48,30 +48,57 @@
               active-text-color="#ffd04b"
             >
               <el-menu-item index="1"
-                ><router-link :to="{path:'index',query:{name:currentUser}}">首页</router-link></el-menu-item
+                ><router-link
+                  :to="{ path: 'index', query: { name: currentUser } }"
+                  >首页</router-link
+                ></el-menu-item
               >
               <el-menu-item index="2"
-                ><router-link :to="{path:'Book',query:{name:currentUser}}">知识库</router-link></el-menu-item
+                ><router-link
+                  :to="{ path: 'Book', query: { name: currentUser } }"
+                  >知识库</router-link
+                ></el-menu-item
               >
               <el-menu-item index="3"
-                ><router-link :to="{path:'Text',query:{name:currentUser}}">待办事项</router-link></el-menu-item
+                ><router-link
+                  :to="{ path: 'Text', query: { name: currentUser } }"
+                  >待办事项</router-link
+                ></el-menu-item
               >
               <el-menu-item index="4"
-                ><router-link :to="{path:'love',query:{name:currentUser}}">我的收藏</router-link></el-menu-item
+                ><router-link
+                  :to="{ path: 'love', query: { name: currentUser } }"
+                  >我的收藏</router-link
+                ></el-menu-item
               >
               <el-menu-item index="5"
                 ><router-link to="/">登录/注册</router-link></el-menu-item
               >
               <el-menu-item index="6">
                 <el-dropdown trigger="click">
-                  <span class="el-dropdown-link" style="font-size:14px; font-family:'幼圆'; font-style:normal;">
-                    {{currentUser}}<i class="el-icon-arrow-down el-icon--right" style="font-size:14px;"></i>
+                  <span
+                    class="el-dropdown-link"
+                    style="
+                      font-size: 14px;
+                      font-family: '幼圆';
+                      font-style: normal;
+                    "
+                  >
+                    {{ currentUser
+                    }}<i
+                      class="el-icon-arrow-down el-icon--right"
+                      style="font-size: 14px"
+                    ></i>
                   </span>
                   <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item icon="el-icon-close"><router-link to="/">退出登录</router-link></el-dropdown-item>
+                    <el-dropdown-item icon="el-icon-close"
+                      ><router-link to="/"
+                        >退出登录</router-link
+                      ></el-dropdown-item
+                    >
                   </el-dropdown-menu>
                 </el-dropdown>
-              </el-menu-item >
+              </el-menu-item>
             </el-menu>
           </div>
         </div>
@@ -97,12 +124,14 @@
         class="part1-title d-flex flex-row justify-content-between px-4 pt-5 pb-3"
       >
         <i class="el-icon-paperclip">知识精选</i>
-        <router-link to="Book">更多>></router-link>
+        <router-link :to="{ path: 'Book', query: { name: currentUser } }"
+          >更多>></router-link
+        >
       </div>
       <div class="part1-main">
         <div class="part1-main-item row m-0">
           <a
-            href=""
+            @click="allText(item.id, item.text)"
             v-for="(item, index) in textData.slice(0, 4)"
             :key="index"
             class="col-lg-3 col-md-6"
@@ -117,6 +146,17 @@
         </div>
       </div>
     </div>
+
+    <!-- 知识详情内容 -->
+    <el-dialog title="详情内容" :visible.sync="allVisible" width="500px">
+      <el-form
+        ref="form"
+        :model="form"
+        style="height: 250px; font-size: 1.1em; text-indent: 2em"
+      >
+        {{ form.text }}
+      </el-form>
+    </el-dialog>
     <!-- 知识精选结束 -->
 
     <el-divider></el-divider>
@@ -127,7 +167,9 @@
         class="part1-title d-flex flex-row justify-content-between px-4 pt-5 pb-3"
       >
         <i class="el-icon-date">待办事项</i>
-        <router-link to="Text">更多>></router-link>
+        <router-link :to="{ path: 'Text', query: { name: currentUser } }"
+          >更多>></router-link
+        >
       </div>
       <div class="part1-main">
         <div class="part1-main-item">
@@ -141,13 +183,18 @@
               :name="index"
               v-for="(item, index) in thingsData.slice(0, 6)"
               :key="index"
-              class="col-md-6 col-lg-4"
+              class="col-sm-12 col-md-6 col-lg-4"
             >
               <div style="font-size: 1.2em">
                 <p>{{ item.matter }}</p>
               </div>
-              <div style="float: right" class="pr-4">
-                <p>{{ attachDate(item.date) }}</p>
+              <div class="d-flex flex-row justify-content-end align-items-center">
+                <div class="pr-4">
+                  <p>{{ attachDate(item.date) }}</p>
+                </div>
+                <div class="pr-4">
+                  <p class="el-icon-delete" @click="finish(item.id)"></p>
+                </div>
               </div>
             </el-collapse-item>
           </el-collapse>
@@ -164,13 +211,16 @@
         class="part1-title d-flex flex-row justify-content-between px-4 pt-5 pb-3"
       >
         <i class="el-icon-folder-opened">在线文档</i>
-        <router-link to="love">更多>></router-link>
+        <router-link :to="{ path: 'love', query: { name: currentUser } }"
+          >更多>></router-link
+        >
       </div>
       <div class="part1-main">
         <div class="part1-main-item row m-0">
-          <div class="row m-0">
+          <div class="row m-0 align-items-center" style="width: 100%">
             <div
-              class="demo-image__preview d-flex flex-column col-xs-6 col-sm-4 col-md-3 col-lg-2"
+              class="demo-image__preview d-flex flex-column col-xs-6 col-sm-4 col-md-3 col-lg-2 justify-content-center align-items-center"
+              style="width: 50%"
               v-for="(item, index) in filesData"
               :key="index"
             >
@@ -186,101 +236,13 @@
                 <!-- :preview-src-list="srcList" -->
               </el-image>
               <a
-                href=""
+                :href="'http://127.0.0.1:3300' + item.file"
                 class="text-center p-2"
                 style="width: 150px; font-size: 1.5em"
                 >{{ attachFile(item.file) }}</a
               >
             </div>
           </div>
-
-          <!-- action 接口
-                list-type设置文件列表的样式。
-                handlePreview 预览
-                uploadSuccess 上传成功的回调
-                beforeRemove 删除的回调
-                fileList 上传的文件数组
-                uploadHeader 传给后台的请求头 -->
-
-          <!-- <el-upload
-            v-model="form"
-            class="upload-demo inline-block"
-            :action="uploadUrl(id)"
-            list-type="picture-card"
-            :on-preview="
-              (file) => {
-                return handlePreview(file);
-              }
-            "
-            :on-success="
-              (res, file, fileList) => {
-                return uploadSuccess(res, file, fileList);
-              }
-            "
-            :before-remove="beforeRemove"
-            :file-list="fileList"
-            ><i class="el-icon-plus"></i
-          ></el-upload> -->
-          <!-- 把图片标题显示出来 -->
-          <!-- <ul class="download-imgs">
-            <li
-              class="need-enclosure clearfix"
-              v-for="(item, index) in attachment"
-              :key="index"
-            > -->
-          <!-- 正则判断文件类型，是doc,xls文件则显示下载二字 -->
-          <!-- <a
-                class="preview"
-                @click="handleDownload(index)"
-                v-if="/.docx|.pdf|.xls|.xlsx|.ppt|.pptx|.doc|.txt|.zip|.rar/"
-                >下载</a
-              >
-              {{ item }}
-            </li>
-          </ul> -->
-          <!-- element一个预览图片的组件 -->
-          <!-- <el-image-viewer
-            v-if="showImgView"
-            :on-close="closeViewer"
-            :url-list="showImgList"
-            :z-index="3000"
-          ></el-image-viewer> -->
-
-          <!-- <el-upload action="#" list-type="picture-card" :auto-upload="false">
-            <i slot="default" class="el-icon-plus"></i>
-            <div slot="file" slot-scope="{ file }">
-              <img
-                class="el-upload-list__item-thumbnail"
-                :src="file.url"
-                alt=""
-              />
-              <span class="el-upload-list__item-actions">
-                <span
-                  class="el-upload-list__item-preview"
-                  @click="handlePictureCardPreview(file)"
-                >
-                  <i class="el-icon-zoom-in"></i>
-                </span>
-                <span
-                  v-if="!disabled"
-                  class="el-upload-list__item-delete"
-                  @click="handleDownload(file)"
-                >
-                  <i class="el-icon-download"></i>
-                </span>
-                <span
-                  v-if="!disabled"
-                  class="el-upload-list__item-delete"
-                  @click="handleRemove(file)"
-                >
-                  <i class="el-icon-delete"></i>
-                </span>
-              </span>
-            </div>
-          </el-upload>
-          <el-dialog :visible.sync="dialogVisible">
-            <img width="100%" :src="dialogImageUrl" alt="" />
-          </el-dialog> -->
         </div>
       </div>
     </div>
@@ -291,13 +253,29 @@
       <footer class="text-white text-center p-3" style="letter-spacing: 0.2em">
         <span>©个人知识库</span>
         <div class="text-white" style="letter-spacing: 0.1em; font-size: 0.8em">
-          <router-link :to="{path:'index',query:{name:currentUser}}" class="routerL">首页</router-link>
+          <router-link
+            :to="{ path: 'index', query: { name: currentUser } }"
+            class="routerL"
+            >首页</router-link
+          >
           <el-divider direction="vertical"></el-divider>
-          <router-link :to="{path:'Book',query:{name:currentUser}}" class="routerL">知识库</router-link>
+          <router-link
+            :to="{ path: 'Book', query: { name: currentUser } }"
+            class="routerL"
+            >知识库</router-link
+          >
           <el-divider direction="vertical"></el-divider>
-          <router-link :to="{path:'Text',query:{name:currentUser}}" class="routerL">待办事项</router-link>
+          <router-link
+            :to="{ path: 'Text', query: { name: currentUser } }"
+            class="routerL"
+            >待办事项</router-link
+          >
           <el-divider direction="vertical"></el-divider>
-          <router-link :to="{path:'love',query:{name:currentUser}}" class="routerL">我的收藏</router-link>
+          <router-link
+            :to="{ path: 'love', query: { name: currentUser } }"
+            class="routerL"
+            >我的收藏</router-link
+          >
           <el-divider direction="vertical"></el-divider>
           <router-link to="/" class="routerL">登录/注册</router-link>
         </div>
@@ -337,19 +315,12 @@ export default {
       thingsData: [],
       filesData: [],
       activeNames: ["1"],
-      currentUser:'',
-
-      // dialogImageUrl: "",
-      // dialogVisible: false,
-      // disabled: false,
-
-      // attachment: [],
-      // showImgView: false,
-      // showImgList: [],
-      // fileList: [],
-      // uploadHeader: uploadHead(),
-
-      // srcList:[],
+      currentUser: "",
+      allVisible: false,
+      form: {
+        id: "",
+        text: "",
+      },
     };
   },
   created() {
@@ -363,24 +334,28 @@ export default {
     uploadUrl(id) {
       return `/api/knowledgeUpload/updateknowledgefile?id=${id}`;
     },
-    getParams(){
+    getParams() {
       this.currentUser = this.$route.query.name;
-      console.log(this.currentUser+'???????')
+      console.log(this.currentUser + "???????");
     },
     getData() {
-        let name = this.currentUser;
-        this.textDate = [],
-        this.thingsData = [],
+      let name = this.currentUser;
+      (this.textDate = []),
+        (this.thingsData = []),
         //通过axios向服务器发出post请求，以获取全部知识的信息。
-        axios.post("api/knowledge/getallknowledgetext",{name}).then((res) => {
-          // console.log(res);
-          this.textData = res.data;
-          // console.log(this.textData);
-        });
+        axios
+          .post("api/knowledge/getallknowledgetext", { name })
+          .then((res) => {
+            // console.log(res);
+            this.textData = res.data;
+            // console.log(this.textData);
+          });
       //通过axios向服务器发出post请求，以获取全部的待办事项。
-      axios.post("api/knowledge/getallthings",{name}).then((res) => {
+      axios.post("api/knowledge/getallthings", { name }).then((res) => {
         // console.log(res);
-        this.thingsData = res.data;
+        this.thingsData = res.data.filter(function (item) {
+          return item.thing_flag === 0;
+        });
         // console.log(this.thingsData);
       });
       // axios.post("api/knowledgeUpload/updateknowledgefile").then((res) => {
@@ -388,7 +363,7 @@ export default {
       //   this.form = res.data;
       //   // console.log(this.form);
       // });
-      axios.post("api/knowledge/getallknowledgefile",{name}).then((res) => {
+      axios.post("api/knowledge/getallknowledgefile", { name }).then((res) => {
         console.log(res);
         this.filesData = res.data;
         // this.srcList = filesData;
@@ -399,77 +374,26 @@ export default {
       // console.log(val);
     },
 
-    // handleRemove(file) {
-    //   console.log(file);
-    // },
-    // handlePictureCardPreview(file) {
-    //   this.dialogImageUrl = file.url;
-    //   this.dialogVisible = true;
-    // },
-    // handleDownload(file) {
-    //   console.log(file);
-    // },
-
-    // displayImg(file, q) {
-    //   //正则判断文件后缀是不是图片
-    //   let w = q.substring(q.lastIndexOf("."));
-    //   const reg = RegExp(/(?:png|jpg|jpeg|JPG|PNG|JPEG)$/);
-    //   let result = reg.test(w);
-    //   if (result) {
-    //     if (file) {
-    //       this.showImg(file);
-    //     }
-    //   } else {
-    //     //下载文件
-    //     var a = document.createElement("a");
-    //     var event = new MouseEvent("click");
-    //     a.download = file.name;
-    //     a.href = file.url;
-    //     a.dispatchEvent(event);
-    //   }
-    // },
-    // //点击加号按钮，如果是图片就预览，如果是文件就下载
-    // handlePreview(file) {
-    //   //新增图片预览
-    //   if (file.name) {
-    //     let q = file.name;
-    //     //这里要判断用户此时是在新增图片，还是编辑的时候，预览以前上传的图片，
-    //     // 因为上传时，我能获得文件名字，但是文件名字并没有保存到后台，
-    //     // 所以预览的时候只能根据图片地址去判断文件类型。
-    //     this.displayImg(file, q);
-    //   } else {
-    //     // 单纯预览以前的图片
-    //     let q = file.url;
-    //     this.displayImg(file, q);
-    //   }
-    // },
-    // showImg(img) {
-    //   let a = img.url;
-    //   this.showImgList.push(a);
-    //   this.showImgView = true;
-    // },
-    // //下载图片
-    // handleDownload(img) {
-    //   let a = this.fileList[img];
-    //   this.handlePreview(a);
-    // },
-    // closeViewer() {
-    //   this.showImgView = false;
-    // },
-    // uploadSuccess(rep, file, fileList) {
-    //   console.log(rep, file, fileList);
-    //   let a = staticUrl + file.response.data;
-    //   this.fileList = fileList;
-    //   //获取文件名字，上传pdf，doc时显示文件名字
-    //   this.attachment.push(file.name);
-    // },
-    // beforeRemove(file, fileList, index) {
-    //   for (let i = 0; i < this.attachment.length; i++) {
-    //     if (this.attachment[i] == file.name) {
-    //       this.attachment.splice(i, 1);
-    //     }
-    //   }
-    // },
+    allText(id, text) {
+      console.log(id + "PPPPP");
+      this.allVisible = true;
+      this.form = {
+        id: id,
+        text: text,
+      };
+    },
+    finish(id){
+        console.log(id+'eeeee')
+        let text_flag = 1;
+        let params ={text_flag,id};
+        axios.post("api/knowledge/updatethingflag",params).then((res) => {
+          console.log(res.data); 
+          this.getData();
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
   },
 };
 </script>

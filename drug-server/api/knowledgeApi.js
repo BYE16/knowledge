@@ -167,6 +167,20 @@ router.post('/updatefileflag', (req, res) => {
     });
     conn.end();
 });
+// 改变thing的完成状态
+router.post('/updatethingflag', (req, res) => {
+    let sqlStr = sql_Knowledge.knowledge.updateknowledgethingflag;
+    let conn = new DBHelper_Knowledge().getConn();
+    let params = req.body;
+    conn.query(sqlStr, [params.text_flag, params.id], (err, result) => {
+        if (err) {
+            res.json(err);
+        } else {
+            res.json(result)
+        }
+    });
+    conn.end();
+});
 
 // 登录
 router.post('/login', (req, res) => {
