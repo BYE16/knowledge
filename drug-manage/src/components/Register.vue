@@ -67,11 +67,23 @@ export default {
               console.log(res)
               console.log(res.data)
               console.log(res.data.length)
-              this.$router.push({path:'/'});
-              this.$notify({
-                title:'注册成功',
-                type: 'success'
-              })
+              if(res.data.affectedRows === 1){
+                this.$router.push({path:'/'});
+                this.$notify({
+                  title:'注册成功',
+                  type: 'success'
+                })
+              }else if(res.data.code === 'ER_DUP_ENTRY'){
+                this.$notify({
+                  title:'用户名已存在',
+                  type: 'error'
+                })
+              }else{
+                this.$notify({
+                  title:'注册失败',
+                  type: 'error'
+                })
+              }
               // if (res.config.data.length == 1) {
               //   this.$router.push('/login');
               //   console.log("res")

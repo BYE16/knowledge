@@ -4,7 +4,6 @@ import index from '@/pages/index.vue'
 import Book from '@/pages/Book.vue'
 import Text from '@/pages/Text.vue'
 import love from '@/pages/love.vue'
-import Personal from '@/components/Personal'
 import Login from '@/components/Login'
 import Register from '@/components/Register'
 

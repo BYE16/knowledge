@@ -2,7 +2,7 @@
   <div class="login" clearfix>
     <div class="login-wrap">
       <el-row type="flex" justify="center">
-        <el-form ref="loginForm" :model="user" :rules="rules" status-icon label-width="80px">
+        <el-form ref="loginForm" :model="user" status-icon label-width="80px">
           <h3>登录</h3>
           <hr>
           <el-form-item prop="username" label="用户名">
