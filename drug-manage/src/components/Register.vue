@@ -43,6 +43,7 @@ export default {
   },
   methods: {
     doRegister() {
+      console.log(!this.user.username+"1111")
       if (!this.user.username) {
         this.$message.error("请输入用户名！");
         return;

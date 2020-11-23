@@ -53,7 +53,7 @@ router.post('/updatedrug', (req, res) => {
     let params = req.body;
     console.log(params);
      
-    conn.query(sqlStr, [params.name, params.brand, params.introduction, params.id], (err, result) => {
+    conn.query(sqlStr, [params.name, params.brand, params.introduction,params.id], (err, result) => {
         if (err) {
             res.json(sqlStr + " " + err);
         } else {

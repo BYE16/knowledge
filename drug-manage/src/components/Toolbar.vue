@@ -3,11 +3,26 @@
     <i @click="addOne" class="glyphicon glyphicon-plus"></i>
     <i @click="toggleFavorite" class="glyphicon glyphicon-star" v-bind:class="{starred:activeNote.favorite}"></i>
     <i @click="deleteNote" class="glyphicon glyphicon-remove"></i>
+    <el-i @click="drawer = true" type="primary" style="margin-left: 16px;" class="datebox"><br>日历</el-i>
+    <el-drawer
+      :visible.sync="drawer"
+      :with-header="false">
+      <div>
+        <el-calendar v-model="value"></el-calendar>
+     </div>
+     </el-drawer>
+
   </div>
 </template>
 
 <script>
 export default {
+    data() {
+      return {
+        drawer: false,
+        value: new Date()
+      };
+    },
   computed:{
     activeNote(){
       return this.$store.getters.activeNote
@@ -23,6 +38,9 @@ export default {
     },
     deleteNote(){
       this.$store.dispatch('deleteNote')
+    },
+    switchTo (path) {
+      this.$router.replace(path)
     }
   }
 }
@@ -50,5 +68,9 @@ export default {
 }
 .starred {
   color: #F7AE4F;
+}
+.datebox{
+  font-size: 20pt;
+  font-weight: bolder;
 }
 </style>

@@ -49,30 +49,57 @@
               active-text-color="#ffd04b"
             >
               <el-menu-item index="1"
-                ><router-link :to="{path:'index',query:{name:currentUser}}">首页</router-link></el-menu-item
+                ><router-link
+                  :to="{ path: 'index', query: { name: currentUser } }"
+                  >首页</router-link
+                ></el-menu-item
               >
               <el-menu-item index="2"
-                ><router-link :to="{path:'Book',query:{name:currentUser}}">知识库</router-link></el-menu-item
+                ><router-link
+                  :to="{ path: 'Book', query: { name: currentUser } }"
+                  >知识库</router-link
+                ></el-menu-item
               >
               <el-menu-item index="3"
-                ><router-link :to="{path:'Text',query:{name:currentUser}}">待办事项</router-link></el-menu-item
+                ><router-link
+                  :to="{ path: 'Text', query: { name: currentUser } }"
+                  >待办事项</router-link
+                ></el-menu-item
               >
               <el-menu-item index="4"
-                ><router-link :to="{path:'love',query:{name:currentUser}}">我的收藏</router-link></el-menu-item
+                ><router-link
+                  :to="{ path: 'love', query: { name: currentUser } }"
+                  >我的收藏</router-link
+                ></el-menu-item
               >
               <el-menu-item index="5"
                 ><router-link to="/">登录/注册</router-link></el-menu-item
               >
               <el-menu-item index="6">
                 <el-dropdown trigger="click">
-                  <span class="el-dropdown-link" style="font-size:14px; font-family:'幼圆'; font-style:normal;">
-                    {{currentUser}}<i class="el-icon-arrow-down el-icon--right" style="font-size:14px;"></i>
+                  <span
+                    class="el-dropdown-link"
+                    style="
+                      font-size: 14px;
+                      font-family: '幼圆';
+                      font-style: normal;
+                    "
+                  >
+                    {{ currentUser
+                    }}<i
+                      class="el-icon-arrow-down el-icon--right"
+                      style="font-size: 14px"
+                    ></i>
                   </span>
                   <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item icon="el-icon-close"><router-link to="/">退出登录</router-link></el-dropdown-item>
+                    <el-dropdown-item icon="el-icon-close"
+                      ><router-link to="/"
+                        >退出登录</router-link
+                      ></el-dropdown-item
+                    >
                   </el-dropdown-menu>
                 </el-dropdown>
-              </el-menu-item >
+              </el-menu-item>
             </el-menu>
           </div>
         </div>
@@ -83,6 +110,7 @@
     <toolbar></toolbar>
     <note-list></note-list> 
     <editor></editor> 
+
   </div>
 </template>
 
@@ -92,24 +120,29 @@ import NoteList from '@/components/NoteList'
 import Editor from '@/components/Editor'
 
 export default {
-  data(){
-    return{
-      currentUser:'',
-    }
-  },
     name:'test1',
   components:{
     Toolbar,
     NoteList,
     Editor
   },
-  created() {
+      data() {
+      return {
+        value: new Date(),
+        activeIndex: "1",
+      currentUser: "",
+      }
+    },
+    created() {
     this.getParams();
   },
   methods:{
-    getParams(){
+    handleSelect(key, keyPath) {
+      // console.log(key, keyPath);
+    },
+    getParams() {
       this.currentUser = this.$route.query.name;
-      console.log(this.currentUser+'???????')
+      console.log(this.currentUser + "???????");
     },
   }
 };
@@ -152,5 +185,6 @@ body {
 a {
   text-decoration: none;
 }
+
 </style>
 

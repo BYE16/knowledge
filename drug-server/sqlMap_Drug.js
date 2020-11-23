@@ -5,7 +5,7 @@ var sqlMap = {
         getdrugs: 'select * from book',
         updatedrug: 'update book set name=?,brand=?,introduction=? where id=?',
         deletedrug: 'delete from book where id=?',
-        adddrug: 'insert into book(name,brand,introduction) values(?,?,?,?)'
+        adddrug: 'insert into book(name,brand,introduction) values(?,?,?)'
     }
 }
 module.exports = sqlMap;

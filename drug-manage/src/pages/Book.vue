@@ -1,7 +1,7 @@
 <template>
 
   <div class="table">
-      <!-- 导航栏开始 -->
+       <!-- 导航栏开始 -->
     <div class="container-xl">
       <div class="row head-nav m-0">
         <!-- 左栏开始 -->
@@ -49,38 +49,65 @@
               active-text-color="#ffd04b"
             >
               <el-menu-item index="1"
-                ><router-link :to="{path:'index',query:{name:currentUser}}">首页</router-link></el-menu-item
+                ><router-link
+                  :to="{ path: 'index', query: { name: currentUser } }"
+                  >首页</router-link
+                ></el-menu-item
               >
               <el-menu-item index="2"
-                ><router-link :to="{path:'Book',query:{name:currentUser}}">知识库</router-link></el-menu-item
+                ><router-link
+                  :to="{ path: 'Book', query: { name: currentUser } }"
+                  >知识库</router-link
+                ></el-menu-item
               >
               <el-menu-item index="3"
-                ><router-link :to="{path:'Text',query:{name:currentUser}}">待办事项</router-link></el-menu-item
+                ><router-link
+                  :to="{ path: 'Text', query: { name: currentUser } }"
+                  >待办事项</router-link
+                ></el-menu-item
               >
               <el-menu-item index="4"
-                ><router-link :to="{path:'love',query:{name:currentUser}}">我的收藏</router-link></el-menu-item
+                ><router-link
+                  :to="{ path: 'love', query: { name: currentUser } }"
+                  >我的收藏</router-link
+                ></el-menu-item
               >
               <el-menu-item index="5"
                 ><router-link to="/">登录/注册</router-link></el-menu-item
               >
               <el-menu-item index="6">
                 <el-dropdown trigger="click">
-                  <span class="el-dropdown-link" style="font-size:14px; font-family:'幼圆'; font-style:normal;">
-                    {{currentUser}}<i class="el-icon-arrow-down el-icon--right" style="font-size:14px;"></i>
+                  <span
+                    class="el-dropdown-link"
+                    style="
+                      font-size: 14px;
+                      font-family: '幼圆';
+                      font-style: normal;
+                    "
+                  >
+                    {{ currentUser
+                    }}<i
+                      class="el-icon-arrow-down el-icon--right"
+                      style="font-size: 14px"
+                    ></i>
                   </span>
                   <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item icon="el-icon-close"><router-link to="/">退出登录</router-link></el-dropdown-item>
+                    <el-dropdown-item icon="el-icon-close"
+                      ><router-link to="/"
+                        >退出登录</router-link
+                      ></el-dropdown-item
+                    >
                   </el-dropdown-menu>
                 </el-dropdown>
-              </el-menu-item >
+              </el-menu-item>
             </el-menu>
           </div>
         </div>
       </div>
     </div>
     <!-- 导航栏结束 -->
-    <div class="container">
-      <h1>我的笔记本</h1>
+    <div class="container pt-4">
+
       <div class="handle-box">
         <el-button
           type="primary"
@@ -232,18 +259,17 @@ import { mixin } from "../mixins/index.js";
 import axios from "axios";
 
 export default {
-  name: "drug-page",
+  name: "book-page",
   //注意：以下代码导入mixin中的方法供本组件使用。
   mixins: [mixin],
   data() {
     return {
-      currentUser:'',
       labelPosition: 'right',
       registerForm: {
         // 添加框信息
         name: "",
         brand:"",
-        introduction: "",
+        introduction: ""
         
       },
       tableData: [],
@@ -255,15 +281,17 @@ export default {
       select_word: "",
       form: {
         // 编辑框信息
-        id: "",
-        name: "",
-        brand:"",
-        introduction: "",
+        id:'',
+        name: '',
+        brand:'',
+        introduction: ''
         
       },
       pageSize: 5, // 页数
       currentPage: 1, // 当前页
       idx: -1,
+      activeIndex: "1",
+      currentUser: "",
     };
   },
 
@@ -296,21 +324,21 @@ export default {
     this.getData();
   },
   methods: {
-    // 获取当前页
-    handleCurrentChange(val) {
-      this.currentPage = val;
+    handleSelect(key, keyPath) {
+      // console.log(key, keyPath);
     },
-    getParams(){
-      this.currentUser = this.$route.query.name;
-      console.log(this.currentUser+'???????')
+    // 获取当前页
+      handleCurrentChange(val) {
+      this.currentPage = val;
     },
     // 添加
     adddrug() {
+      //let id=this.registerForm.id;
       let name = this.registerForm.name;
       let brand = this.registerForm.brand;
       let introduction = this.registerForm.introduction;
       
-      let params = { name, brand, introduction};
+      let params = {name, brand, introduction};
       console.log(params);
       //通过axios向服务器发出post请求，添加一条记录。
       axios
@@ -329,6 +357,10 @@ export default {
           console.log(err);
         });
       this.centerDialogVisible = false;
+    },
+    getParams() {
+      this.currentUser = this.$route.query.name;
+      console.log(this.currentUser + "???????");
     },
     // 获取
     getData() {
@@ -361,7 +393,7 @@ export default {
       let brand = this.form.brand;
       let introduction = this.form.introduction;
       
-      let params = { name, brand, introduction,id };
+      let params = { name, brand, introduction,id};
       console.log(params);
       //通过axios向服务器发出post请求，更新一条记录。
       axios
@@ -443,5 +475,8 @@ export default {
 a {
   text-decoration: none;
 }
-
+.container{
+  width: 100%;
+  background-color: cadetblue;
+}
 </style>
